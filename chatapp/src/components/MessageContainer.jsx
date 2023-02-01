@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import axios from "axios"
+import io from "socket.io-client"
+const socket = io.connect("http://localhost:8080")
 export const MessageContainer = () => {
     const [message, setMessage] = useState()
 
-    useEffect(() => {
-        const getMessage = async () => {
-            try {
-                const getMessage = axios.get('http://localhost:8080/messages')
-                const result = await getMessage
-                const allMessages = result.data.map((m) => { return <p key={m._id}> {m.message}  </p> })
-                setMessage(allMessages)
-            } catch (error) {
-                console.log("ERROR=>", error)
-            }
+    const getMessage = async () => {
+        try {
+            const getMessage = axios.get('http://localhost:8080/messages')
+            const result = await getMessage
+            const allMessages = result.data.map((m) => { return <p key={m._id}> {m.message}  </p> })
+            setMessage(allMessages)
+        } catch (error) {
+            console.log("ERROR=>", error)
         }
+    }
+
+    useEffect(() => {
         getMessage()
     }, [])
+
+
+    useEffect(() => {
+        socket.on("messages", (data) => {
+            getMessage(data)
+        })
+    }, [socket])
 
     return (
         <>

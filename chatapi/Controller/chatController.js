@@ -30,6 +30,5 @@ chatController.senMessage = async (req, res) => {
         console.log("ERROR=>", error)
     }
 }
-
-
 module.exports = chatController
+
