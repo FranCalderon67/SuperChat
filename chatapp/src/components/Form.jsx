@@ -3,12 +3,13 @@ import { TextField, Box } from "@mui/material"
 import { SendButton } from "./SendButton";
 import axios from "axios";
 import io from "socket.io-client"
-const socket = io()
+const socket = io.connect('http://localhost:8080')
 export const MessageForm = () => {
+
     const sendMessage = async (event) => {
         event.preventDefault()
         const message = event.target.message.value;
-        socket.emit("new-message", message)
+        socket.emit("new-message", { message: message })
         try {
             await axios.post("http://localhost:8080/send", { message: message })
             event.target.reset()
@@ -17,7 +18,6 @@ export const MessageForm = () => {
         }
     }
 
-    socket.on("messages", (message) => { sendMessage(message) })
 
     return (
         <>
