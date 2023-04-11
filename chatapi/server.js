@@ -5,6 +5,7 @@ require('dotenv').config()
 const PORT = process.env.PORT || 8080
 const chatController = require('./Controller/chatController.js')
 const messageRoutes = require('./Routes/chatRoutes.js')
+const userRoutes = require("./Routes/userRoutes.js")
 const http = require('http')
 const { Server } = require('socket.io')
 const server = http.createServer(app)
@@ -27,6 +28,7 @@ app.use(cors())
 chatController.connect()
 app.use(express.json())
 app.use(messageRoutes)
+app.use(userRoutes)
 
 server.listen(PORT, () => {
     console.log(`Server up in ${PORT}`)

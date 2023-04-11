@@ -8,7 +8,7 @@ export const MessageContainer = () => {
 
     const getMessage = async () => {
         try {
-            const getMessage = axios.get('https://super-chat-2w3x.onrender.com/messages')
+            const getMessage = axios.get('http://localhost:8080/messages')
             const result = await getMessage
             const allMessages = result.data.map((m) => { return <p key={m._id}> {m.message}  </p> })
             setMessage(allMessages)
