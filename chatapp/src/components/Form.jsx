@@ -11,7 +11,7 @@ export const MessageForm = () => {
         const message = event.target.message.value;
         socket.emit("new-message", { message: message })
         try {
-            await axios.post("https://super-chat-2w3x.onrender.com/send", { message: message })
+            await axios.post("http://localhost:8080/send", { message: message })
             event.target.reset()
         } catch (error) {
             console.log("ERROR=>", error)
