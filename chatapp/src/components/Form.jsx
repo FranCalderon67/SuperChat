@@ -1,9 +1,10 @@
 import React from "react";
-import { TextField, Box } from "@mui/material"
+import { TextField, Box, Button } from "@mui/material"
 import { SendButton } from "./SendButton";
 import axios from "axios";
 import io from "socket.io-client"
-const socket = io.connect('https://super-chat-2w3x.onrender.com')
+// const socket = io.connect('https://super-chat-2w3x.onrender.com')
+const socket = io.connect("http://localhost:8080")
 export const MessageForm = () => {
 
     const sendMessage = async (event) => {
@@ -28,26 +29,28 @@ export const MessageForm = () => {
                     position: "absolute",
                     top: "90%"
                 }}
-            >
-                <form
-                    method="post"
-                    onSubmit={sendMessage}
-                >
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        variant="standard"
-                        multiline
-                        color="primary"
+                component="form"
+                onSubmit={sendMessage}
+                noValidate
 
-                        style={{
-                            width: "80%",
-                            marginLeft: "15px",
-                        }}
-                        name="message"
-                        required
-                    />
-                    <SendButton />
-                </form>
+            >
+
+                <TextField
+                    id="outlined-multiline-flexible"
+                    variant="standard"
+                    multiline
+                    color="primary"
+
+                    style={{
+                        width: "80%",
+                        marginLeft: "15px",
+                    }}
+                    name="message"
+                    required
+                />
+
+                <SendButton />
+
             </Box>
         </>
     )
