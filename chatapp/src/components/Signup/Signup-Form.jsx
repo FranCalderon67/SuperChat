@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Box, Button, IconButton, Link, TextField, InputAdornment } from "@mui/material";
+import { Box, Button, IconButton, TextField, InputAdornment } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"
 
 export const SignUp = () => {
-
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState();
     const [showRepeatPassword, setShowRepeatPassword] = useState();
 
@@ -44,7 +45,7 @@ export const SignUp = () => {
                 .required("Debes completar este campo"),
             password: Yup
                 .string()
-                .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$#@$!%*?&](A-Za-z\d$#@$!%*?&)|[^ ]){10,15}$/,
+                .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$#@$!%*?&])([A-Za-z\d$#@$!%*?&]|[^ ]){10,15}$/,
                     "La contraseña debe incluir al menos 10 caracteres, una mayuscula, un numero y un simbolo")
                 .max(255)
                 .required("Debes completar este campo"),
@@ -54,7 +55,10 @@ export const SignUp = () => {
         }),
         onSubmit: async (values) => {
             try {
-                await axios.post("http://localhost:8080/signup", values)
+                const apiCall = await axios.post("http://localhost:8080/signup", values)
+                if (apiCall.status == 200) {
+                    navigate("/")
+                }
             } catch (error) {
                 console.log("ERROR=>", error)
             }
@@ -82,20 +86,21 @@ export const SignUp = () => {
                         alignItems: "center",
                         '& .MuiTextField-root': { m: 2, width: "45ch" }
                     }}
-                    onSubmit={formik.handleChange}
+                    onSubmit={formik.handleSubmit}
                     noValidate
                 >
                     <TextField
-                        required
+                        placeholder="Juan"
                         label="Nombre"
                         id="name"
                         onChange={formik.handleChange}
                         error={formik.touched.name && Boolean(formik.errors.name)}
                         helperText={formik.touched.name && formik.errors.name}
+                        fullWidth
                     />
 
                     <TextField
-                        required
+                        placeholder="Perez"
                         label="Apellido"
                         id="lastName"
                         onChange={formik.handleChange}
@@ -104,7 +109,7 @@ export const SignUp = () => {
                     />
 
                     <TextField
-                        required
+                        placeholder="ejemplo@gmail.com"
                         label="Email"
                         id="email"
                         onChange={formik.handleChange}
@@ -113,7 +118,6 @@ export const SignUp = () => {
                     />
 
                     <TextField
-                        required
                         label="Contraseña"
                         id="password"
                         type={showPassword ? "text" : "password"}
@@ -136,7 +140,6 @@ export const SignUp = () => {
                     />
 
                     <TextField
-                        required
                         label="Repetir Contraseña"
                         id="passwordCheck"
                         type={showRepeatPassword ? "text" : "password"}
@@ -157,22 +160,17 @@ export const SignUp = () => {
                             )
                         }}
                     />
-
-                    <Link
-                        href="/"
-                        underline="none"
+                    <Button
+                        variant="contained"
+                        sx={{
+                            m: 2
+                        }}
+                        type="submit"
+                        disabled={formik.isSubmitting}
                     >
-                        <Button
-                            variant="contained"
-                            sx={{
-                                m: 2
-                            }}
-                            type="submit"
-                            disabled={formik.isSubmitting}
-                        >
-                            Aceptar
-                        </Button>
-                    </Link>
+                        Aceptar
+                    </Button>
+
                 </Box>
             </Box>
         </>

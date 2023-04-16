@@ -7,6 +7,7 @@ const userController = {};
 userController.addUser = async (req, res) => {
     try {
         await chatUser.addItem(req.body)
+        return res.send("Usuario Creado")
     } catch (error) {
         console.log("ERROR=>", error)
     }
