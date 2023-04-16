@@ -11,22 +11,21 @@ userController.addUser = async (req, res) => {
     } catch (error) {
         console.log("ERROR=>", error)
     }
-}
+};
 
 userController.getUser = async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
     try {
-        console.log(req.body.email);
-        const user = await chatUser.getUser(req.body.email);
-        const password = req.body.password;
+        const user = await chatUser.getUser(email);
         if (user && password == user.password) {
-            res.send(`Usuario ${user.name} ${user.lastName} encontrado`)
-            //res.status(301).redirect("http://localhost:3000/chat")
+            return res.send({ succes: true })
         } else {
-            res.send("Algunas datos son incorrectos")
-        }
+            return res.status(401).send({ error: "Algunos datos son incorrectos" })
+        };
     } catch (error) {
         console.log("ERROR=>", error)
-    }
-}
+    };
+};
 
 module.exports = userController;
