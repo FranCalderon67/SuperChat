@@ -1,22 +1,24 @@
 import React, { useState } from "react";
-import { Box, Button, Link, TextField, Typography, IconButton, InputAdornment } from "@mui/material";
+import { Box, Button, Link, TextField, Typography, IconButton, InputAdornment, Alert } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
     const [showPassword, setShowPassword] = useState();
+    const navigate = useNavigate();
 
     const handleShowPassword = () => {
         setShowPassword((show) => !show)
-    }
+    };
 
     const handleMouseClickPassword = (e) => {
         e.preventDefault()
-    }
+    };
 
     const validationSchema = Yup.object({
         email: Yup
@@ -28,7 +30,7 @@ export const LoginForm = () => {
             .max(255)
             .required("Contraseña es requerido")
 
-    })
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -37,16 +39,18 @@ export const LoginForm = () => {
         },
         validationSchema: validationSchema,
 
-        onSubmit: async (values) => {
+        onSubmit: async (values, { setStatus, setErrors }) => {
             try {
-                console.log(values);
-                await axios.post("http://localhost:8080/login")
+                await axios.post("http://localhost:8080/login", values);
+                setStatus({ succes: true });
+                navigate("/chat");
             } catch (error) {
-                console.log("ERROR=>", error)
+                console.log("ERROR=>", error);
+                setStatus({ error: error.response.data.error });
+                setErrors({ form: error.response.data.error })
             }
-
         }
-    })
+    });
 
     return (
         <>
@@ -115,21 +119,34 @@ export const LoginForm = () => {
                         }}
                     >
                     </TextField>
-                    <Link
-                        underline="none"
-                    >
-                        <Button
-                            variant="contained"
-                            sx={{
-                                m: 2
-                            }}
-                            type="submit"
-                            disabled={formik.isSubmitting}
-                        >
-                            Ingresar
-                        </Button>
 
-                    </Link>
+                    <Box>
+
+                        {formik.errors.form && (
+                            <Box>
+                                <Alert
+                                    severity="error"
+                                    variant="outlined"
+                                >
+                                    {formik.errors.form}
+
+                                </Alert>
+
+
+                            </Box>
+                        )}
+                    </Box>
+
+                    <Button
+                        variant="contained"
+                        sx={{
+                            m: 2
+                        }}
+                        type="submit"
+                        disabled={formik.isSubmitting}
+                    >
+                        Ingresar
+                    </Button>
 
                     <Typography>
                         No tienes usuario, <Link href="/signup">registrate</Link>
@@ -138,4 +155,4 @@ export const LoginForm = () => {
             </Box>
         </>
     )
-}
+};
