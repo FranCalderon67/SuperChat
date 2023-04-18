@@ -13,7 +13,7 @@ export const MessageContainer = () => {
         try {
             const getMessage = axios.get('http://localhost:8080/messages')
             const result = await getMessage
-            const allMessages = result.data.map((m) => { return <p key={m._id}> {m.message}  </p> })
+            const allMessages = result.data.map((m) => { return <Typography mt={1} sx={{ marginLeft: "2rem" }} key={m._id}> {m.message}  </Typography> })
             setMessage(allMessages)
         } catch (error) {
             console.log("ERROR=>", error)
@@ -38,13 +38,8 @@ export const MessageContainer = () => {
             >
                 <FriendData />
 
-                <Typography
-                    sx={{
-                        marginLeft: "2rem"
-                    }}
-                >
-                    {message}
-                </Typography>
+                {message}
+
                 <MessageForm />
             </Box>
         </>

@@ -3,20 +3,18 @@ import { Box } from "@mui/material";
 
 import { MessageContainer } from "./MessageContainer.jsx";
 import { UserNavbar } from "./UserNavbar.jsx";
-import { FriendData } from "./FriendData.jsx";
+import { MainNavbar } from "./MainNavbar.jsx";
 export const ChatBox = () => {
 
     return (
         <>
+            <MainNavbar />
             <Box
-                mt={2}
                 display="flex"
                 width="100%"
                 height="100%"
             >
                 <UserNavbar />
-
-
                 <MessageContainer />
 
             </Box>
