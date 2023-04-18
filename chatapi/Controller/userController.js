@@ -10,12 +10,7 @@ userController.addUser = async (req, res) => {
         password: req.body.password,
         name: req.body.name,
         lastName: req.body.lastName,
-        chats: [{
-            contact: [{
-                name: "",
-                messages: []
-            }]
-        }]
+        friends: [""]
 
     }
     try {
