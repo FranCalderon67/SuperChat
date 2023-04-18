@@ -5,8 +5,16 @@ const chatUser = new userContainer(mongoUri, "SuperChat", "users");
 const userController = {};
 
 userController.addUser = async (req, res) => {
+    const user = {
+        email: req.body.email,
+        password: req.body.password,
+        name: req.body.name,
+        lastName: req.body.lastName,
+        friends: [""]
+
+    }
     try {
-        await chatUser.addItem(req.body)
+        await chatUser.addItem(user)
         return res.send("Usuario Creado")
     } catch (error) {
         console.log("ERROR=>", error)
