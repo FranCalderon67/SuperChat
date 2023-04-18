@@ -23,42 +23,20 @@ export const MessageForm = () => {
     return (
         <>
             <Box
-<<<<<<< HEAD
-                sx={{
-
-                    width: "90%",
-                    position: "absolute",
-                    top: "90%"
-                }}
-                component="form"
-                onSubmit={sendMessage}
-                noValidate
-
-=======
                 component="form"
                 onSubmit={sendMessage}
                 noValidate
                 mt={5}
                 marginLeft="2rem"
->>>>>>> 446ee95bdb525a44faffaaf2747b4be00db9335f
             >
 
                 <TextField
                     id="outlined-multiline-flexible"
                     variant="standard"
-<<<<<<< HEAD
-                    multiline
-                    color="primary"
-
-                    style={{
-                        width: "80%",
-                        marginLeft: "15px",
-=======
                     color="primary"
                     style={{
                         width: "70%"
 
->>>>>>> 446ee95bdb525a44faffaaf2747b4be00db9335f
                     }}
                     name="message"
                     required
