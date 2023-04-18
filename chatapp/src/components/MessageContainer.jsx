@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
+import { MessageForm } from "./Form";
+import { FriendData } from "./FriendData";
 import axios from "axios"
 import io from "socket.io-client"
 // const socket = io.connect("https://super-chat-2w3x.onrender.com")
@@ -28,11 +30,22 @@ export const MessageContainer = () => {
     return (
         <>
             <Box
-                mt={2}
+
+                sx={{
+                    flexGrow: 1,
+
+                }}
             >
-                <Typography>
+                <FriendData />
+
+                <Typography
+                    sx={{
+                        marginLeft: "2rem"
+                    }}
+                >
                     {message}
                 </Typography>
+                <MessageForm />
             </Box>
         </>
     )
